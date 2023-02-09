@@ -2,6 +2,7 @@
 url=""
 user=""
 opt=0
+.secrets/ ./secrets.sh
 
 while :
 do
@@ -30,7 +31,7 @@ do
 		   echo "Se escaneara sitio web $url"
 		   echo "Escaneo iniciado: $(date +%d-%b - %H-%M)" 
 		   while :;do for s in / - \\ \|; do printf "\r$s";sleep 1;done;done &
-		   wpscan --url $url -e u --api-token mJsg5cTo3wVtntdpYIltnsw9LkMGsLpdTJvMGg2Wo6g --random-user-agent -v > informe-$url-$(date +%d-%b-%H_%M).txt
+		   wpscan --url $url -e u --api-token $wpscan_token --random-user-agent -v > informe-$url-$(date +%d-%b-%H_%M).txt
 		   kill $!; trap 'kill $!' SIGTERM
 		   echo "Escaneo finalizado el $(date +%d-%b-%H_%M) y guardado como informe-$url-$user-$(date +%d-%b_%H-%M).txt"
            sleep 10
@@ -41,7 +42,7 @@ do
 		   echo "Se escaneara sitio web $url y atacara al usuario $user"
 		   echo "Ataque iniciado: $(date +%d-%b - %H-%M)" 
 		   while :;do for s in / - \\ \|; do printf "\r$s";sleep 1;done;done &
-		   wpscan --url $url --passwords /home/kali/Desktop/wp/pw1.txt --usernames $user --api-token mJsg5cTo3wVtntdpYIltnsw9LkMGsLpdTJvMGg2Wo6g --random-user-agent -v > informe-$url-$user-$(date +%d-%b-%H_%M).txt
+		   wpscan --url $url --passwords .secrets/dics/*.txt --usernames $user --api-token $wpscan_token --random-user-agent -v > informe-$url-$user-$(date +%d-%b-%H_%M).txt
 		   kill $!; trap 'kill $!' SIGTERM
 		   echo "Escaneo finalizado el $(date +%d-%b-%H_%M) y guardado como informe-$url-$user-$(date +%d-%b_%H-%M).txt"
            sleep 10
